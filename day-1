@@ -21,7 +21,7 @@ class Solution {
         nums[j] = temp;
     }
   public static void main(String args[]){
-        int nums[]= {2,0,2,1,1,0};
+        int nums[]= {0,0,0,1,1,1,2,2};
         sortColors(nums);
      for (int num : nums) {
             System.out.print(num + " ");
