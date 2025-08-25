@@ -1,0 +1,47 @@
+import java.util.*;
+
+public class PermutationUtils {
+
+    public static List<String> getUniquePermutations(String s) {
+        List<String> result = new ArrayList<>();
+        Map<Character, Integer> freqMap = new HashMap<>();
+
+        // Build frequency map
+        for (char c : s.toCharArray()) {
+            freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);
+        }
+
+        // Start backtracking
+        backtrack(freqMap, new StringBuilder(), s.length(), result);
+        return result;
+    }
+
+    private static void backtrack(Map<Character, Integer> freqMap, StringBuilder path, int targetLen, List<String> result) {
+        if (path.length() == targetLen) {
+            result.add(path.toString());
+            return;
+        }
+
+        for (Map.Entry<Character, Integer> entry : freqMap.entrySet()) {
+            char c = entry.getKey();
+            int count = entry.getValue();
+
+            if (count == 0) continue;
+
+            path.append(c);
+            freqMap.put(c, count - 1);
+
+            backtrack(freqMap, path, targetLen, result);
+
+            path.setLength(path.length() - 1); // Efficient backtrack
+            freqMap.put(c, count); // Restore count
+        }
+    }
+
+    // Example usage
+    public static void main(String[] args) {
+        String input = "abc";
+        List<String> permutations = getUniquePermutations(input);
+        System.out.println(permutations);
+    }
+}
