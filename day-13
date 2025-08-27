@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class Solution {
+
+    // Longest Palindromic Substring using Expand Around Center
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
+
+        int start = 0, end = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandFromCenter(s, i, i);       // Odd length
+            int len2 = expandFromCenter(s, i, i + 1);   // Even length
+            int len = Math.max(len1, len2);
+
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end   = i + len / 2;
+            }
+        }
+
+        return s.substring(start, end + 1);
+    }
+
+    private int expandFromCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+
+    // Find Leaders in an Array
+    public static List<Integer> findLeaders(int[] arr) {
+        List<Integer> leaders = new ArrayList<>();
+        int n = arr.length;
+        int maxFromRight = arr[n - 1];
+        leaders.add(maxFromRight); // Last element is always a leader
+
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] > maxFromRight) {
+                maxFromRight = arr[i];
+                leaders.add(maxFromRight);
+            }
+        }
+
+        Collections.reverse(leaders); // To maintain original order
+        return leaders;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+
+        // Test longestPalindrome
+        String str = "babad";
+        System.out.println("Longest Palindromic Substring: " + sol.longestPalindrome(str));
+
+        // Test findLeaders
+        int[] arr = {16, 17, 4, 3, 5, 2};
+        System.out.println("Leaders: " + findLeaders(arr));
+    }
+}
