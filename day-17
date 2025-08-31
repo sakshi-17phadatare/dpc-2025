@@ -1,0 +1,33 @@
+import java.util.*;
+
+public class PrimeFactorization {
+    public static List<Integer> getPrimeFactors(int n) {
+        List<Integer> factors = new ArrayList<>();
+
+        // Handle factor 2 separately
+        while (n % 2 == 0) {
+            factors.add(2);
+            n /= 2;
+        }
+
+        // Check odd factors from 3 to sqrt(n)
+        for (int i = 3; i <= Math.sqrt(n); i += 2) {
+            while (n % i == 0) {
+                factors.add(i);
+                n /= i;
+            }
+        }
+
+        // If n is still greater than 2, it's a prime factor
+        if (n > 2) {
+            factors.add(n);
+        }
+
+        return factors;
+    }
+
+    public static void main(String[] args) {
+        int N = 18;
+        System.out.println(getPrimeFactors(N)); // Output: [2, 3, 3]
+    }
+}
