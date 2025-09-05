@@ -1,0 +1,41 @@
+import java.util.Stack;
+
+public class StackReverser {
+
+    // Main function to reverse the stack
+    public static void reverse(Stack<Integer> stack) {
+        if (stack.isEmpty()) return;
+
+        int top = stack.pop();
+        reverse(stack);
+        insertAtBottom(stack, top);
+    }
+
+    // Helper function to insert an element at the bottom
+    private static void insertAtBottom(Stack<Integer> stack, int value) {
+        if (stack.isEmpty()) {
+            stack.push(value);
+            return;
+        }
+
+        int top = stack.pop();
+        insertAtBottom(stack, value);
+        stack.push(top);
+    }
+
+    public static void main(String[] args) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+
+        reverse(stack);
+
+        // Print reversed stack
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+        // Output: 1 2 3 4
+    }
+}
